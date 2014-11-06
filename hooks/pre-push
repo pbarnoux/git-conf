@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# A hook to check that tests always pass before sharing code.
+# A non-zero return value will prevent the push operation
+#
+# Options to run tests, defaults to empty but can be overriden with git config
+options=""
+
+# Relocate to the top directory of our project
+relative_prefix=$(git rev-parse --show-prefix)
+absolute_path=$PWD
+cd $(echo "$absolute_path" | sed "s:\(.*\)$relative_prefix:\1:")
+
+# Depending on the nature of the project, run tests accordingly
+if [ -f pom.xml ]; then                           # Maven project
+	goal=$(git config hooks.maven.goal)
+	if [ -z "$goal" ]; then
+		goal="test"
+	fi
+	if git config --bool hooks.maven.offline > /dev/null; then
+		options="$options -o"
+	fi
+	eval "mvn $options clean $goal"
+elif [ -f Gemfile ]; then                         # Ruby on rails project
+	if [ -d spec ]; then
+		# Run tests with rspec
+		eval "bundle exec rspec spec/"
+	fi
+fi
+

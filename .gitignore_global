@@ -1,0 +1,31 @@
+# This file is intended to be used as a global ignore file with:
+#   git config --global core.excludesfile '.gitignore_global'
+#
+# This will tell git to always use this file before evaluating any local
+# .gitignore file.
+
+# Eclipse IDE (Java)
+.project
+.classpath
+.settings/
+
+# Idea IntelliJ IDE
+.idea
+*.iml
+
+# Maven output directory
+target/
+
+# Default binary output directory
+bin/
+
+# Log files
+*.log
+
+# Local database files
+*.db
+
+# Swap files
+*~
+*.swp
+
