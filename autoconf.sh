@@ -129,6 +129,10 @@ set_identity "user.name" "name (e.g: John Doe)"
 set_identity "user.email" "email (e.g: john.doe@example.com)"
 
 # Configure (or reconfigure) some git global settings
+configure "color.branch" "auto"
+configure "color.diff" "auto"
+configure "color.interactive" "auto"
+configure "color.status" "auto"
 # EOL policy on commit
 if imatch_glob '*linux*' "$OSTYPE"; then
 	configure "core.autocrlf" "input"
