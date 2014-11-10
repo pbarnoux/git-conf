@@ -87,7 +87,7 @@ configure()
 	elif [ $config -eq 125 ]; then
 		output="[ SKIPPED: already set ]"
 	fi
-	printf "%-20s%10s\n" "$1" "$output"
+	printf "%-40s%10s\n" "$1" "$output"
 }
 
 # Request the user personal data if necessary to set them
@@ -102,7 +102,7 @@ set_identity()
 		IFS= read -r personal_data
 		configure "$1" "$personal_data"
 	else
-		printf "%-20s%10s\n" "$1" "[ SKIPPED: already set ]"
+		printf "%-40s%10s\n" "$1" "[ SKIPPED: already set ]"
 	fi
 }
 
@@ -135,11 +135,22 @@ if imatch_glob '*linux*' "$OSTYPE"; then
 elif imatch_glob '*win*' "$OS"; then
 	configure "core.autocrlf" "true"
 else
-	printf "%-20s%10s\n" "core.autocrlf" "[ SKIPPED: Unable to determine OS ]"
+	printf "%-40s%10s\n" "core.autocrlf" "[ SKIPPED: Unable to determine OS ]"
 fi
 # global ignore file
 configure "core.excludesfile" "$dest_dir"/.gitignore_global
 configure "init.templatedir" "$dest_dir"
 configure "merge.conflictstyle" "diff3"
+if which gvim >/dev/null; then
+	if which curl >/dev/null; then
+		curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts -o diffconflicts
+		git update-index --assume-unchanged diffconflicts
+		chmod 755 diffconflicts
+	fi
+	configure "merge.tool" "diffconflicts"
+	configure "mergetool.diffconflicts.cmd" "$dest_dir"/diffconflicts
+	configure "mergetool.diffconflicts.trustExitCode" "true"
+	configure "mergetool.diffconflicts.keepBackup" "false"
+fi
 configure "rerere.enabled" "true"
 
