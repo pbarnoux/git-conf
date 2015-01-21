@@ -27,3 +27,20 @@ In addition to this file, the script attempts to guess the correct value for
 the setting core.autocrlf based on your operating system. This is a safety net
 should a git client would not honor the .gitattributes file.
 
+Default hook
+------------
+When detecting a Maven or Ruby on Rails project using rspec, git push sends
+data only if tests succeeds.
+
+Maven launches verify goal. The following options may override the default
+behavior:
+
+	# Run another phase
+	git conf --set hooks.maven.goal [test|package|...]
+	# Run maven in offline mode
+	git conf --set hooks.maven.offline true
+
+RoR tests are launched through rpsec as:
+
+	bundle exec rspec spec/
+
