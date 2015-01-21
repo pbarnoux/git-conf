@@ -15,7 +15,7 @@ cd $(echo "$absolute_path" | sed "s:\(.*\)$relative_prefix:\1:")
 if [ -f pom.xml ]; then                           # Maven project
 	goal=$(git config hooks.maven.goal)
 	if [ -z "$goal" ]; then
-		goal="test"
+		goal="verify"
 	fi
 	if git config --bool hooks.maven.offline > /dev/null; then
 		options="$options -o"
