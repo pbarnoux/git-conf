@@ -49,7 +49,7 @@ overwrite()
 				fi
 			done
 		fi
-	elif [ "$2" = $3 ]; then
+	elif [ "$2" == "$3" ]; then
 		# Do not call git config to set an existing value; skip this item.
 		retval=125
 	else
@@ -132,6 +132,11 @@ set_identity "user.name" "name (e.g: John Doe)"
 set_identity "user.email" "email (e.g: john.doe@example.com)"
 
 # Configure (or reconfigure) some git global settings
+# Aliases for git log (condensed log and two kinds of graph)
+configure "alias.lg" "log --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)%ai%C(reset) %C(white)%s%C(reset) - %C(magenta)%an%C(reset)'"
+configure "alias.graph-simple" "log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) - %C(magenta)%an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+configure "alias.graph" "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)%ai (%ar)%C(reset)%C(bold magenta)%d%C(reset)%n''          %C(white)%s%C(reset) - %C(white)%an%C(reset)' --all"
+# Enforce default colors in terminal
 configure "color.branch" "auto"
 configure "color.diff" "auto"
 configure "color.interactive" "auto"
@@ -146,7 +151,9 @@ else
 fi
 # global ignore file
 configure "core.excludesfile" "$dest_dir"/.gitignore_global
+# Declare this repository as a template to enable hooks
 configure "init.templatedir" "$dest_dir"
+# Conflict resolution
 configure "merge.conflictstyle" "diff3"
 if which gvim >/dev/null; then
 	if which curl >/dev/null; then
@@ -161,5 +168,6 @@ if which gvim >/dev/null; then
 	configure "mergetool.diffconflicts.trustExitCode" "true"
 	configure "mergetool.diffconflicts.keepBackup" "false"
 fi
+# Enable the Reuse Recorded Resolution option
 configure "rerere.enabled" "true"
 
