@@ -2,14 +2,17 @@
 # This script should conform to POSIX
 # It runs in the current shell
 
-# Perform a match between a glob pattern and a value
-# $1: the glob pattern
+# Matches the given string against a pattern built from the given base.
+# The base pattern is surrounded with '*' to expand matches to any characters.
+# $1: the base pattern
 # $2: the value to match
 # returns 0 if the value matches, 1 otherwise
-match_glob() { case "$2" in $1) return 0;; *) return 1;; esac ; }
+match_glob() { case "$2" in *$1*) return 0;; *) return 1;; esac ; }
 
-# Perform a case insentitve match between a glob pattern and a value
-# $1: the glob pattern, there is no check that it is lower case
+# Matches the given string against a pattern built from the given base while
+# discarding case checks.
+# The base pattern is surrounded with '*' to expand matches to any characters.
+# $1: the base pattern, there is no check that it is lower case
 # $2: the value to match
 # returns 0 if the value matches, 1 otherwise
 imatch_glob()
