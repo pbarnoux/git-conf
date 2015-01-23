@@ -30,15 +30,15 @@ should a git client would not honor the .gitattributes file.
 Default hook
 ------------
 When detecting a Maven or Ruby on Rails project using rspec, git push sends
-data only if tests succeeds.
+data only if tests succeed.
 
 Maven launches verify goal. The following options may override the default
 behavior:
 
 	# Run another phase
-	git conf --set hooks.maven.goal [test|package|...]
+	git config hooks.maven.goal [test|package|...]
 	# Run maven in offline mode
-	git conf --set hooks.maven.offline true
+	git config hooks.maven.offline true
 
 RoR tests are launched through rpsec as:
 
