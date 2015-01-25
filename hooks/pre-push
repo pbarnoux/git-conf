@@ -18,13 +18,13 @@ if [ ! -z "$cmd" ]; then
 # Adopt a common strategy based on the project
 elif [ -f pom.xml ]; then                         # Maven project
 	goal=$(git config hooks.prepush.maven.goal)
-	if [ -z "$goal" ]; then
+	if [ -z "$goals" ]; then
 		goal="clean verify"
 	fi
 	if git config --bool hooks.prepush.maven.offline > /dev/null; then
 		options="$options -o"
 	fi
-	eval "mvn $options $goal"
+	eval "mvn $options $goals"
 elif [ -f Gemfile ]; then                         # Ruby on rails project
 	if [ -d spec ]; then
 		# Run tests with rspec
