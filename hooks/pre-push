@@ -11,16 +11,20 @@ relative_prefix=$(git rev-parse --show-prefix)
 absolute_path=$PWD
 cd $(echo "$absolute_path" | sed "s:\(.*\)$relative_prefix:\1:")
 
-# Depending on the nature of the project, run tests accordingly
-if [ -f pom.xml ]; then                           # Maven project
-	goal=$(git config hooks.maven.goal)
+# If user provide a specific command to run, use it
+cmd=$(git config hooks.prepush.command)
+if [ ! -z "$cmd" ]; then
+	eval "$cmd"
+# Adopt a common strategy based on the project
+elif [ -f pom.xml ]; then                         # Maven project
+	goal=$(git config hooks.prepush.maven.goal)
 	if [ -z "$goal" ]; then
-		goal="verify"
+		goal="clean verify"
 	fi
-	if git config --bool hooks.maven.offline > /dev/null; then
+	if git config --bool hooks.prepush.maven.offline > /dev/null; then
 		options="$options -o"
 	fi
-	eval "mvn $options clean $goal"
+	eval "mvn $options $goal"
 elif [ -f Gemfile ]; then                         # Ruby on rails project
 	if [ -d spec ]; then
 		# Run tests with rspec

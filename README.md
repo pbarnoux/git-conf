@@ -27,20 +27,30 @@ In addition to this file, the script attempts to guess the correct value for
 the setting core.autocrlf based on your operating system. This is a safety net
 should a git client would not honor the .gitattributes file.
 
-Default hook
-------------
-When detecting a Maven or Ruby on Rails project using rspec, git push sends
-data only if tests succeed.
+Pre-push hook
+-------------
+If you do not enjoy seeing your CI job failing after pushing your
+contributions, you can rely on the provided pre-push hook.
 
-Maven launches verify goal. The following options may override the default
-behavior:
+Either provide the command to run to run tests, e.g.:
 
-	# Run another phase
-	git config hooks.maven.goal [test|package|...]
+	git config hooks.prepush.command 'mvn clean install && mvn verify -f <IT_module>/pom.xml -P<IT_profile> -D<IT_var>=<test_val>'
+
+The command runs in the top directory. When unset, the command depends on the
+project nature.
+
+If a pom.xml is found in the top directory, Maven tests are launched as:
+
+	mvn clean verify
+
+The following options may override the default behavior:
+
+	# Run another phase, e.g.: package and test site generation
+	git config hooks.prepush.maven.goal 'package site:site site:stage'
 	# Run maven in offline mode
-	git config hooks.maven.offline true
+	git config hooks.prepush.maven.offline true
 
-RoR tests are launched through rpsec as:
+If a gemfile and a spec directory are found, RoR tests are launched as:
 
 	bundle exec rspec spec/
 
