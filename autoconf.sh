@@ -142,9 +142,9 @@ configure "color.diff" "auto"
 configure "color.interactive" "auto"
 configure "color.status" "auto"
 # EOL policy on commit
-if imatch_glob '*linux*' "$OSTYPE"; then
+if imatch_glob 'linux' "$OSTYPE"; then
 	configure "core.autocrlf" "input"
-elif imatch_glob '*win*' "$OS"; then
+elif imatch_glob 'win' "$OS"; then
 	configure "core.autocrlf" "true"
 else
 	printf "%-40s%10s\n" "core.autocrlf" "[ SKIPPED: Unable to determine OS ]"
