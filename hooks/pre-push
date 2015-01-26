@@ -17,9 +17,9 @@ if [ ! -z "$cmd" ]; then
 	eval "$cmd"
 # Adopt a common strategy based on the project
 elif [ -f pom.xml ]; then                         # Maven project
-	goal=$(git config hooks.prepush.maven.goal)
+	goals=$(git config hooks.prepush.maven.goal)
 	if [ -z "$goals" ]; then
-		goal="clean verify"
+		goals="clean verify"
 	fi
 	if git config --bool hooks.prepush.maven.offline > /dev/null; then
 		options="$options -o"
