@@ -164,7 +164,7 @@ if which gvim >/dev/null; then
 		cd "$current_dir"
 	fi
 	configure "merge.tool" "diffconflicts"
-	configure "mergetool.diffconflicts.cmd" "$dest_dir"/diffconflicts
+	configure "mergetool.diffconflicts.cmd" "$dest_dir"'/diffconflicts vim $BASE $LOCAL $REMOTE $MERGED'
 	configure "mergetool.diffconflicts.trustExitCode" "true"
 	configure "mergetool.diffconflicts.keepBackup" "false"
 fi
