@@ -56,3 +56,8 @@ If a gemfile and a spec directory are found, RoR tests are launched as:
 
 	bundle exec rspec spec/
 
+About diffconflicts
+-------------------
+Credits for the diffconflicts shell script go to whiteinge and other
+contributors. The source material can be found on [his dotfile
+repository](https://github.com/whiteinge/dotfiles).

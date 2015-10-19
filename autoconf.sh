@@ -156,13 +156,6 @@ configure "init.templatedir" "$dest_dir"
 # Conflict resolution
 configure "merge.conflictstyle" "diff3"
 if which gvim >/dev/null; then
-	if which curl >/dev/null; then
-		cd "$dest_dir"
-		curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts -o diffconflicts
-		git update-index --assume-unchanged diffconflicts
-		chmod 755 diffconflicts
-		cd "$current_dir"
-	fi
 	configure "merge.tool" "diffconflicts"
 	configure "mergetool.diffconflicts.cmd" "$dest_dir"'/diffconflicts vim $BASE $LOCAL $REMOTE $MERGED'
 	configure "mergetool.diffconflicts.trustExitCode" "true"
