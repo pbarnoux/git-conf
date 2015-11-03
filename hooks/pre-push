@@ -25,6 +25,16 @@ elif [ -f pom.xml ]; then                         # Maven project
 		options="$options -o"
 	fi
 	eval "mvn $options $goals"
+elif [ -f build.gradle ]; then                    # Gradle project
+	tasks=$(git config hooks.prepush.gradle.tasks)
+	if [ -z "$tasks" ]; then
+		tasks="clean test"
+	fi
+	if $(which gradle > /dev/null); then
+		eval "gradle $tasks"
+	elif [ -f gradlew ]; then
+		eval "gradlew $tasks"
+	fi
 elif [ -f Gemfile ]; then                         # Ruby on rails project
 	if [ -d spec ]; then
 		# Run tests with rspec
